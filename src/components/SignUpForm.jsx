@@ -4,6 +4,7 @@ function SignUpForm({ token, setToken }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
+  const [successMessage, setSuccessMessage] = useState(null);
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -28,8 +29,9 @@ function SignUpForm({ token, setToken }) {
 
       const result = await response.json();
       console.log("Sign up successful:", result);
+      setSuccessMessage(result.message);
       setToken(result.token);
-      alert(result.message);
+      // alert(result.message);
     } catch (error) {
       setError(error.message);
     }
@@ -39,18 +41,21 @@ function SignUpForm({ token, setToken }) {
     <div>
       <h2>Sign Up!</h2>
       {error && <p>{error}</p>}
+      {successMessage && <p>{successMessage}</p>}
       <form onSubmit={handleSubmit}>
-        <label>
+        <label className="signup-label">
           Username:{" "}
           <input
+            className="signup-input"
             value={username}
             onChange={(event) => setUsername(event.target.value)}
             required
           />
         </label>
-        <label>
+        <label className="signup-label">
           Password:{" "}
           <input
+            className="signup-input"
             value={password}
             onChange={(event) => setPassword(event.target.value)}
             required

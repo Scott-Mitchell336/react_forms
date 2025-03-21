@@ -6,29 +6,32 @@ function Authenticate({ token, setToken }) {
 
   async function handleClick() {
     console.log("Authenticating token...");
+    setError(null);
+    setSuccessMessage(null);
+
     if (token === null) {
       setError("No token found, you need to sign up first!");
       return;
-    } else {
-      try {
-        const response = await fetch(
-          "https://fsa-jwt-practice.herokuapp.com/authenticate",
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-        const result = await response.json();
-        console.log("Authentication successful:", result);
-        setSuccessMessage(result.message);
-      } catch (error) {
-        setError(error.message);
-      }
+    }
+    try {
+      const response = await fetch(
+        "https://fsa-jwt-practice.herokuapp.com/authenticate",
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      const result = await response.json();
+      console.log("Authentication successful:", result);
+      setSuccessMessage(result.message);
+    } catch (error) {
+      setError(error.message);
     }
   }
+
   return (
     <div>
       <h2>Authenticate!</h2>
